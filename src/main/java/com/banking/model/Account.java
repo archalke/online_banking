@@ -1,10 +1,9 @@
-package model;
+package com.banking.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -14,17 +13,35 @@ public class Account implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
     private Long accountNumber;
-    private Character accountStatus;
-    private Long customerId;
-    private Date enrollDate;
+    private Character accountStatus = 'A';
+    @Column(nullable = false)
+    private Long consumerId;
+    private LocalDateTime enrollDate = LocalDateTime.now();
     private Character ebillStatus;
     private Character accountType;
+    private Double accountBalance = 0.00;
+
+    public Double getAccountBalance() {
+        return accountBalance;
+    }
+
+    public void setAccountBalance(Double accountBalance) {
+        this.accountBalance = accountBalance;
+    }
+
+    public Long getConsumerId() {
+        return consumerId;
+    }
+
+    public void setConsumerId(Long consumerId) {
+        this.consumerId = consumerId;
+    }
 //    private String[] billers;
 
     public Account(){}
 
-    public Account(long customerId, char accountType){
-        this.customerId = customerId;
+    public Account(long consumerId, char accountType){
+        this.consumerId = consumerId;
         this.accountType = accountType;
     }
 
@@ -32,7 +49,7 @@ public class Account implements Serializable {
     public String toString() {
         return "Account details  "+ "Account Number : "+accountNumber+"\n"+
                                     "Account Status : "+accountStatus+"\n"+
-                                    "Customer Id :    "+customerId+"\n";
+                                    "Customer Id :    "+consumerId+"\n";
     }
 
     public Long getId() {
@@ -59,19 +76,13 @@ public class Account implements Serializable {
         this.accountStatus = accountStatus;
     }
 
-    public Long getCustomerId() {
-        return customerId;
-    }
 
-    public void setCustomerId(long customerId) {
-        this.customerId = customerId;
-    }
 
-    public Date getEnrollDate() {
+    public LocalDateTime getEnrollDate() {
         return enrollDate;
     }
 
-    public void setEnrollDate(Date enrollDate) {
+    public void setEnrollDate(LocalDateTime enrollDate) {
         this.enrollDate = enrollDate;
     }
 
@@ -90,13 +101,5 @@ public class Account implements Serializable {
     public void setAccountType(char accountType) {
         this.accountType = accountType;
     }
-
-//    public String[] getBillers() {
-//        return billers;
-//    }
-//
-//    public void setBillers(String[] billers) {
-//        this.billers = billers;
-//    }
 
 }

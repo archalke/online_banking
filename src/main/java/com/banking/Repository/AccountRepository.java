@@ -1,6 +1,6 @@
-package Repository;
+package com.banking.Repository;
 
-import model.Account;
+import com.banking.model.Account;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
