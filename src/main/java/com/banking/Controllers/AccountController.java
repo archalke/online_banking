@@ -36,25 +36,24 @@ public class AccountController {
     //for single account
     @GetMapping(path="/oneaccount")
     public @ResponseBody Iterable<Account> getAllAccounts2() {
+
         return accountRepository.findAll();
+
     }
 
         @GetMapping(path="/all")
-    public @ResponseBody String getAllAccounts() throws JsonProcessingException {
+    public @ResponseBody List<Account> getAllAccounts() throws JsonProcessingException {
         //this returns json
         List<Account> allAccounts = new ArrayList<>();
 
         Iterable iterable = accountRepository.findAll();
 
-        ObjectMapper objectMapper = new ObjectMapper();
 
         for (Object a: iterable ) {
                 allAccounts.add( (Account) a);
-                Account account = objectMapper.readValue(((Account)a).toString(),Account.class);
-                System.out.println(account.toString());
         }
 
-        return "hello test";
+        return allAccounts;
 
 //        JacksonJsonParser jacksonJsonParser = new JacksonJsonParser(allAccounts);
 //        allAccounts.addAll( accountRepository.findAll());

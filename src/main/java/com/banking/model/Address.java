@@ -18,6 +18,7 @@ public class Address implements Serializable {
     private String country;
     private int zip;
 
+
     public Address(Long addressId, String street1, String street2, String city, String state, String country, int zip) {
         this.addressId = addressId;
         this.street1 = street1;
