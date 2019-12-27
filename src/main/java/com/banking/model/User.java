@@ -1,9 +1,6 @@
 package com.banking.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -14,7 +11,8 @@ public class User implements Serializable {
     private Long id;
     private String username;
     private String password;
-    private Consumer newConsumer;
+    @OneToOne(fetch=FetchType.LAZY)
+    private Consumer consumer;
 
     public User(){}
 
@@ -37,19 +35,6 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    public Consumer getNewConsumer() {
-        return newConsumer;
-    }
-
-    public void setNewConsumer(Consumer newConsumer) {
-        this.newConsumer = newConsumer;
-    }
 }

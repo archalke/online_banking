@@ -1,10 +1,10 @@
 package com.banking.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.hibernate.engine.internal.Cascade;
+
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 public class Consumer implements Serializable {
@@ -12,22 +12,30 @@ public class Consumer implements Serializable {
     @Id
     @GeneratedValue
     private Long Id;
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long consumerId;
+    private String userName;
     private String firstName;
     private String lastName;
-    private Address presentAddress;
-    private Address mailingAddress;
-    private Long[] accountNumbers;
+    @OneToMany( mappedBy = "consumer", cascade = CascadeType.ALL )
+    private List<Address> presentAddress;
+    @OneToMany( mappedBy = "consumer" , fetch = FetchType.LAZY)
+    private List<Account> Accounts;
 
     public Consumer(){}
 
-    public Long getConsumerId() {
-        return consumerId;
+    public Long getId() {
+        return Id;
     }
 
-    public void setConsumerId(Long consumerId) {
-        this.consumerId = consumerId;
+    public void setId(Long id) {
+        Id = id;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getFirstName() {
@@ -46,28 +54,22 @@ public class Consumer implements Serializable {
         this.lastName = lastName;
     }
 
-    public Address getPresentAddress() {
+    public List<Address> getPresentAddress() {
         return presentAddress;
     }
 
-    public void setPresentAddress(Address presentAddress) {
+    public void setPresentAddress(List<Address> presentAddress) {
         this.presentAddress = presentAddress;
     }
 
-    public Address getMailingAddress() {
-        return mailingAddress;
+    public List<Account> getAccounts() {
+        return Accounts;
     }
 
-    public void setMailingAddress(Address mailingAddress) {
-        this.mailingAddress = mailingAddress;
+    public void setAccounts(List<Account> accounts) {
+        Accounts = accounts;
     }
 
-    public Long[] getAccountNumbers() {
-        return accountNumbers;
-    }
 
-    public void setAccountNumbers(Long[] accountNumbers) {
-        this.accountNumbers = accountNumbers;
-    }
 
 }

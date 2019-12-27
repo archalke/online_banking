@@ -23,7 +23,7 @@ public class AccountController {
     String addNewAccount(@RequestParam Long customerid, @RequestParam Character accounttype) {
         //response body means the returned string is the response
         //request param means it is a parameter from the get or post request
-        Account account = new Account(customerid, accounttype);
+        Account account = new Account();
         accountRepository.save(account);
         return "account added successfuly";
     }
@@ -33,15 +33,15 @@ public class AccountController {
         return "Hello  ";
     }
 
-    //for single account
-    @GetMapping(path="/oneaccount")
-    public @ResponseBody Iterable<Account> getAllAccounts2() {
+    //for single account - find details by account number
+    @GetMapping(path="/{accountnumber}")
+    public @ResponseBody Iterable<Account> getAccountDetails( @PathVariable("accountnumber") Long accountnumber ) {
 
-        return accountRepository.findAll();
+        return accountRepository.findByAccountNumber(accountnumber);
 
     }
 
-        @GetMapping(path="/all")
+    @GetMapping(path="/all")
     public @ResponseBody List<Account> getAllAccounts() throws JsonProcessingException {
         //this returns json
         List<Account> allAccounts = new ArrayList<>();

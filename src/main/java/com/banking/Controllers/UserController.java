@@ -34,7 +34,7 @@ public class UserController {
     public @ResponseBody String addUser(@RequestParam String username,@RequestParam String password){
 
         User loginUser = new User(username,password);
-        loginUser.setNewConsumer(addConsumer());
+
         loginRepository.save(loginUser);
 
         return "user added successfully";
