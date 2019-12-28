@@ -8,5 +8,7 @@ import org.springframework.stereotype.Repository;
 public interface ConsumerRepository extends CrudRepository<Consumer, Long> {
 
 
+    Consumer findByUserName(String userName);
+
 
 }

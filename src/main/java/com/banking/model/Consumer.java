@@ -15,9 +15,11 @@ public class Consumer implements Serializable {
     private String userName;
     private String firstName;
     private String lastName;
-    @OneToMany( mappedBy = "consumer", cascade = CascadeType.ALL )
-    private List<Address> presentAddress;
-    @OneToMany( mappedBy = "consumer" , fetch = FetchType.LAZY)
+
+    @OneToMany( mappedBy = "consumer", cascade = CascadeType.ALL,fetch = FetchType.LAZY )
+    private List<Address> Addresses;
+
+    @OneToMany( mappedBy = "consumer" ,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Account> Accounts;
 
     public Consumer(){}
@@ -54,12 +56,12 @@ public class Consumer implements Serializable {
         this.lastName = lastName;
     }
 
-    public List<Address> getPresentAddress() {
-        return presentAddress;
+    public List<Address> getAddresses() {
+        return Addresses;
     }
 
-    public void setPresentAddress(List<Address> presentAddress) {
-        this.presentAddress = presentAddress;
+    public void setAddresses(List<Address> Addresses) {
+        this.Addresses = Addresses;
     }
 
     public List<Account> getAccounts() {
@@ -70,6 +72,17 @@ public class Consumer implements Serializable {
         Accounts = accounts;
     }
 
+    @Override
+    public String toString() {
+        return "Consumer{" +
+                "Id=" + Id +
+                ", userName='" + userName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", Addresses=" + Addresses +
+                ", Accounts=" + Accounts +
+                '}';
+    }
 
 
 }

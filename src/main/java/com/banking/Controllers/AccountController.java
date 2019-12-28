@@ -42,23 +42,26 @@ public class AccountController {
     }
 
     @GetMapping(path="/all")
-    public @ResponseBody List<Account> getAllAccounts() throws JsonProcessingException {
+    public @ResponseBody List<Account> getAllAccounts() {
+
         //this returns json
         List<Account> allAccounts = new ArrayList<>();
 
-        Iterable iterable = accountRepository.findAll();
+        Iterable<Account> iterable = accountRepository.findAll();
 
-
+        Account account ;
         for (Object a: iterable ) {
-                allAccounts.add( (Account) a);
+            account = (Account)a;
+            System.out.println(
+                    account.getAccountBalance() + "   ---   "+
+                            account.getAccountNumber()+ "   ---   "+
+                            account.getAccountType()
+
+            );
+//            allAccounts.add( (Account) a);
         }
 
         return allAccounts;
-
-//        JacksonJsonParser jacksonJsonParser = new JacksonJsonParser(allAccounts);
-//        allAccounts.addAll( accountRepository.findAll());
-//        return jacksonJsonParser.toString();
-//        return accountRepository.findAll();
 
     }
 
