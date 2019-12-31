@@ -58,7 +58,7 @@ public class AccountController {
                             account.getAccountType()
 
             );
-//            allAccounts.add( (Account) a);
+            allAccounts.add( (Account) a);
         }
 
         return allAccounts;

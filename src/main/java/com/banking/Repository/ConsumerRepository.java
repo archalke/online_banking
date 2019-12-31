@@ -11,4 +11,5 @@ public interface ConsumerRepository extends CrudRepository<Consumer, Long> {
     Consumer findByUserName(String userName);
 
 
+    boolean findByEmail(String email);
 }

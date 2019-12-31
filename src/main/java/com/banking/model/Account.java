@@ -3,10 +3,12 @@ package com.banking.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -28,11 +30,12 @@ enum AccountType{
 
 @Entity
 @JsonIgnoreProperties(value = {"consumer"})
-
 public class Account implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
+
+    @UniqueElements
     private Long accountNumber;
     private Character accountStatus = 'A';
 
@@ -46,7 +49,7 @@ public class Account implements Serializable {
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
 
-    private Double accountBalance = 0.00;
+    private BigDecimal accountBalance ;
 
 
     public Account(){}
@@ -115,11 +118,11 @@ public class Account implements Serializable {
         this.accountType = accountType;
     }
 
-    public Double getAccountBalance() {
+    public BigDecimal getAccountBalance() {
         return accountBalance;
     }
 
-    public void setAccountBalance(Double accountBalance) {
+    public void setAccountBalance(BigDecimal accountBalance) {
         this.accountBalance = accountBalance;
     }
 

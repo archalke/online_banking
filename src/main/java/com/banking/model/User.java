@@ -13,7 +13,6 @@ public class User implements Serializable {
     private String password;
     @OneToOne(fetch=FetchType.LAZY)
     private Consumer consumer;
-
     public User(){}
 
     public User(String username,String password){

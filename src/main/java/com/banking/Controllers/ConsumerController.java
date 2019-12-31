@@ -7,6 +7,7 @@ import com.banking.model.Account;
 import com.banking.model.Address;
 import com.banking.model.Consumer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller//indicates this class is controller
-@RequestMapping(path="/onlinebanking")//indicates URL starts with onlinebanking after application context
+@RequestMapping(path="/onlinebanking/consumer")//indicates URL starts with onlinebanking after application context
 public class ConsumerController {
 
     @Autowired
@@ -27,7 +28,7 @@ public class ConsumerController {
     private AddressRepository addressRepository;
 
 
-    @GetMapping(path="/consumer/{userName}")
+    @GetMapping(path="/{userName}")
     public @ResponseBody Consumer getConsumerDetails(@PathVariable("userName") String userName ) {
 
         Consumer consumer =  consumerRepository.findByUserName(userName);
@@ -45,8 +46,16 @@ public class ConsumerController {
 //        List<Address> addressList = addressRepository.findByConsumer_id(consumer.getId());
 
         return consumer;
-
     }
+
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Consumer create(@RequestBody Consumer consumer){
+        return consumerRepository.save(consumer);
+    }
+
+
 
 
 }
