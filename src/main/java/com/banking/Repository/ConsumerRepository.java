@@ -9,7 +9,7 @@ public interface ConsumerRepository extends CrudRepository<Consumer, Long> {
 
 
     Consumer findByUserName(String userName);
+    Consumer findByEmail(String email);
 
 
-    boolean findByEmail(String email);
 }

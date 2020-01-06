@@ -6,11 +6,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import java.io.Serializable;
 
-enum AddressType{
-    home,
-    work
-}
-
 @Entity
 @JsonIgnoreProperties(value = {"consumer"})
 public class Address implements Serializable {

@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface AccountRepository extends CrudRepository<Account,Long>{
 
-    Iterable<Account> findByAccountNumber(Long accountnumber);
+    List<Account> findByAccountNumber(Long accountnumber);
 
 //    List<Account> findByConsumerId(Long consumerId);
 

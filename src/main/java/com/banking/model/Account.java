@@ -2,31 +2,14 @@ package com.banking.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
-enum AccountType{
-    S("SAVING"), C("CHECKING");
-    //declaring private variables for getting values
-    private String type;
-    //get method
-    public String getType(){
-        return this.type;
-    }
-
-    //enum constructor - can't be public or protected
-    AccountType(String type){
-        this.type = type;
-    }
-}
 
 @Entity
 @JsonIgnoreProperties(value = {"consumer"})
@@ -35,24 +18,25 @@ public class Account implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
 
-    @UniqueElements
     private Long accountNumber;
     private Character accountStatus = 'A';
 
     @ManyToOne//(fetch = FetchType.LAZY)
     @JoinColumn(name = "consumer_id")
-//    @JsonIgnore
+    @JsonIgnore
     private Consumer consumer;
 
     private LocalDateTime enrollDate;// = LocalDateTime.now();
-    private Character ebillStatus;
+    private Character ebillStatus='P';
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
 
     private BigDecimal accountBalance ;
 
 
-    public Account(){}
+    public Account(){
+        accountBalance = new BigDecimal("0.00");
+    }
 
     @Override
     public String toString() {
@@ -61,21 +45,23 @@ public class Account implements Serializable {
                                     "Customer  :    "+consumer+"\n";
     }
 
-
-//    public Long getId() {
-//        return Id;
-//    }
-//
-//    public void setId(Long id) {
-//        Id = id;
-//    }
-
     public Long getAccountNumber() {
+
+        String acc = ("0000000000"+accountNumber);
+        int startIndex = acc.length()-10;
+        System.out.println( "Inside set Account Number --    "+ accountNumber);
+        this.accountNumber = Long.valueOf(acc.substring(startIndex));
         return accountNumber;
+
     }
 
     public void setAccountNumber(Long accountNumber) {
-        this.accountNumber = accountNumber;
+
+        String acc = ("0000000000"+accountNumber);
+        int startIndex = acc.length()-10;
+        System.out.println( "Inside set Account Number --    "+ accountNumber);
+        this.accountNumber = Long.valueOf(acc.substring(startIndex));
+
     }
 
     public Character getAccountStatus() {

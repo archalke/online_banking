@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -30,15 +31,18 @@ public class Consumer implements Serializable {
 
     private String email;
     private String phone;
-    private boolean enabled=true;
+    private boolean activate=true;
     @JsonIgnore
     private String password;
 
 
+    public Consumer(){
 
+        Accounts = new ArrayList<Account>();
+        Accounts.add( new Account());
+        Accounts.add( new Account());
 
-
-    public Consumer(){}
+    }
 
     public String getPassword() {
         return password;
@@ -56,8 +60,6 @@ public class Consumer implements Serializable {
         this.email = email;
     }
 
-
-
     public String getPhone() {
         return phone;
     }
@@ -66,13 +68,9 @@ public class Consumer implements Serializable {
         this.phone = phone;
     }
 
-    public boolean isEnabled() {
-        return enabled;
-    }
+    public boolean isActivate() {      return activate;    }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
+    public void setActivate(boolean activate) {       this.activate = activate;    }
 
     public Long getId() {
         return Id;
