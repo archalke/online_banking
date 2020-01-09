@@ -4,9 +4,7 @@ import com.banking.Repository.AccountRepository;
 import com.banking.Service.AccountService;
 import com.banking.model.Account;
 import com.banking.model.AccountType;
-import com.banking.model.Consumer;
-import jdk.internal.math.FormattedFloatingDecimal;
-import org.apache.tomcat.util.bcel.Const;
+import com.banking.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,18 +19,19 @@ public class AccountServiceImpl implements AccountService {
     AccountRepository accountRepository;
 
     @Override
-    public Account createAccount(Account account, String accountType, Consumer consumer) {
+    public Account createAccount(Account account, String accountType, User user) {
 
         if(accountType.charAt(0)=='C'){
+
             account.setAccountType(AccountType.C);
             account.setAccountNumber( accountRepository.count()+1);
             account.setEnrollDate(LocalDateTime.now());
-            account.setConsumer(consumer);
+            account.setUser(user);
         }else{
             account.setAccountType(AccountType.S);
             account.setAccountNumber( accountRepository.count()+2);
             account.setEnrollDate(LocalDateTime.now());
-            account.setConsumer(consumer);
+            account.setUser(user);
         }
 
         return account;

@@ -1,39 +1,78 @@
 package com.banking.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
+import org.hibernate.engine.internal.Cascade;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 
 @Entity
-public class User implements Serializable {
+@Data public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue
+    private Long Id;
+    @NotBlank(message = "Username is mandatory")
     private String username;
+    @NotBlank(message = "First Name is mandatory")
+    private String firstName;
+    @NotBlank(message = "Last Name is mandatory")
+    private String lastName;
     private String password;
-    @OneToOne(fetch=FetchType.LAZY)
-    private Consumer consumer;
-    public User(){}
+    @Getter @Setter private String email;
+    private String phone;
+    private boolean enabled=true;
 
-    public User(String username,String password){
-        this.username = username;
-        this.password = password;
+    @OneToMany( mappedBy = "user", cascade = CascadeType.ALL,fetch = FetchType.LAZY )
+    private List<Address> Addresses;
+
+    @OneToMany( mappedBy = "user" ,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Account> Accounts;
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 
-    public String getUsername() {
-        return username;
-    }
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
+    @Override
     public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {
-        this.password = password;
+        return null;
     }
 
+    @Override
+    public String getUsername() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
 
 
 }

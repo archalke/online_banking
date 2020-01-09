@@ -8,10 +8,6 @@ import java.util.List;
 public interface AddressRepository extends CrudRepository<Address,Long> {
 
 
-//    List<Address> findByConsumerId(Long consumerId);
-
-//    List<Address> findByConsumer_id(Long id);
-
 
 
 }

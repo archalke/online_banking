@@ -12,10 +12,4 @@ public interface AccountRepository extends CrudRepository<Account,Long>{
 
     List<Account> findByAccountNumber(Long accountnumber);
 
-//    List<Account> findByConsumerId(Long consumerId);
-
-//    List<Account> findByConsumer_id(Long id);
-
-
-
 }
