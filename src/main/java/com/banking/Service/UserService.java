@@ -1,8 +1,12 @@
 package com.banking.Service;
 
-import com.banking.model.User;
+import com.banking.domain.User;
+import com.banking.domain.security.UserRole;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+
 
 public interface UserService {
 
@@ -13,12 +17,10 @@ public interface UserService {
     boolean checkUserNameExists(String userName);
     boolean checkEmailExists(String email);
 
-    void save(User user);
-
     List<User> findAllUsers();
 
     void activateUser(String userName);
     void deactivateUser(String userName);
-
+    User createUser(User user, Set<UserRole> userRoles);
 
 }

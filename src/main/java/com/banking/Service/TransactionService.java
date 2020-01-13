@@ -1,6 +1,6 @@
 package com.banking.Service;
 
-import com.banking.model.Transaction;
+import com.banking.domain.Transaction;
 
 import java.util.List;
 

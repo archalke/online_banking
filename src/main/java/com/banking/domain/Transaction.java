@@ -1,8 +1,7 @@
-package com.banking.model;
+package com.banking.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import lombok.Data.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

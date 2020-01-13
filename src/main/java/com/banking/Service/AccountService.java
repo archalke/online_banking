@@ -1,11 +1,11 @@
 package com.banking.Service;
 
-import com.banking.model.Account;
-import com.banking.model.User;
+import com.banking.domain.Account;
+import com.banking.domain.User;
 
 public interface AccountService {
 
-        Account createAccount(Account account, String accountType, User user);
+        User createAccounts( User user);
         void deposit(String accountType,double amount);
         void withdraw(String accountType,double amount);
 

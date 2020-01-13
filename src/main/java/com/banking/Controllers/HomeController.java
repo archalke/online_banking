@@ -1,7 +1,10 @@
 package com.banking.Controllers;
 
-import com.banking.Repository.UserRepository;
-import com.banking.model.User;
+import com.banking.Repository.RoleRepository;
+import com.banking.Service.UserService;
+import com.banking.domain.Account;
+import com.banking.domain.User;
+import com.banking.domain.security.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,11 +13,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.security.Principal;
+import java.util.HashSet;
+import java.util.Set;
+
 @Controller
 public class HomeController {
 
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
+
+    @Autowired
+    RoleRepository roleRepository;
+
 
     @GetMapping("/")
     public String Home(){
@@ -36,10 +47,42 @@ public class HomeController {
 
     @PostMapping("/signup")
     public String signUpPost(@ModelAttribute("user") User user, Model model){
-        String userName = user.getUsername();
-        String email = user.getEmail();
 
-        return "signup";
+        System.out.println( user );
+
+        if(userService.checkUserExists(user.getUsername(),user.getEmail())){
+
+            if(userService.checkUserNameExists(user.getUsername())){
+                model.addAttribute("usernameExists",true);
+            }
+            if(userService.checkEmailExists(user.getEmail())){
+                model.addAttribute("emailExists",true);
+            }
+            return "signup";
+
+        }else{
+
+            Set<UserRole> userRoles = new HashSet<>();
+//            userRoles.add( new UserRole(user,roleRepository.findByName("ROLE_USER")) );
+            userService.createUser(user, userRoles);
+            return "redirect:/";
+        }
+
+    }
+
+    @RequestMapping("/homePage")
+    public String homePage(Principal principal, Model model){
+
+        User user = userService.findByUserName(principal.getName());
+
+        Account primaryAccount = user.getAccounts().get(0);
+        Account savingsAccount = user.getAccounts().get(1);
+
+        model.addAttribute("primaryAccount",primaryAccount);
+        model.addAttribute("savingsAccount",savingsAccount);
+
+        return "homePage";
+
     }
 
 }

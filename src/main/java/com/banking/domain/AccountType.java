@@ -1,4 +1,4 @@
-package com.banking.model;
+package com.banking.domain;
 
 public enum AccountType {
     S("SAVING"), C("CHECKING");

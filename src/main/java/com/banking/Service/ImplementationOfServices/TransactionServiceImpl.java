@@ -2,7 +2,7 @@ package com.banking.Service.ImplementationOfServices;
 
 import com.banking.Repository.TransactionRepository;
 import com.banking.Service.TransactionService;
-import com.banking.model.Transaction;
+import com.banking.domain.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;

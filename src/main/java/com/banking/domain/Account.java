@@ -1,7 +1,6 @@
-package com.banking.model;
+package com.banking.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +19,6 @@ public class Account implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
-
     private Long accountNumber;
     private Character accountStatus = 'A';
 
@@ -37,13 +35,6 @@ public class Account implements Serializable {
     private BigDecimal accountBalance = new BigDecimal("0.00");
 
 
-    @Override
-    public String toString() {
-        return "Account details  "+ "Account Number : "+getAccountNumber()+"\n"+
-                                    "Account Status : "+accountStatus+"\n"+
-                                    "Customer  :    "+ user +"\n";
-    }
-
     public Long getAccountNumber() {
         String acc = ("0000000000"+accountNumber);
         int startIndex = acc.length()-10;
@@ -59,5 +50,16 @@ public class Account implements Serializable {
         this.accountNumber = Long.valueOf(acc.substring(startIndex));
     }
 
+    @Override
+    public String toString() {
+        return "Account{" +
+                "accountNumber=" + accountNumber +
+                ", accountStatus=" + accountStatus +
+                ", enrollDate=" + enrollDate +
+                ", ebillStatus=" + ebillStatus +
+                ", accountType=" + accountType +
+                ", accountBalance=" + accountBalance +
+                '}';
+    }
 
 }

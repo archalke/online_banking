@@ -1,6 +1,6 @@
 package com.banking.Repository;
 
-import com.banking.model.User;
+import com.banking.domain.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

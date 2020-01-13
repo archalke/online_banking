@@ -1,4 +1,4 @@
-package com.banking.model;
+package com.banking.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
