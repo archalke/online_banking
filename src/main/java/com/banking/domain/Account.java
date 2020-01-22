@@ -36,18 +36,19 @@ public class Account implements Serializable {
 
 
     public Long getAccountNumber() {
-        String acc = ("0000000000"+accountNumber);
-        int startIndex = acc.length()-10;
-        System.out.println( "Inside set Account Number --    "+ accountNumber);
-        this.accountNumber = Long.valueOf(acc.substring(startIndex));
         return accountNumber;
+//        String acc = ("0000000000"+accountNumber);
+//        int startIndex = acc.length()-10;
+//        System.out.println( "Inside set Account Number --    "+ accountNumber);
+//        this.accountNumber = Long.valueOf(acc.substring(startIndex));
     }
 
     public void setAccountNumber(Long accountNumber) {
-        String acc = ("0000000000"+accountNumber);
-        int startIndex = acc.length()-10;
-        System.out.println( "Inside set Account Number --    "+ accountNumber);
-        this.accountNumber = Long.valueOf(acc.substring(startIndex));
+        this.accountNumber = accountNumber;
+//        String acc = ("0000000000"+accountNumber);
+//        int startIndex = acc.length()-10;
+//        System.out.println( "Inside set Account Number --    "+ accountNumber);
+//        this.accountNumber = Long.valueOf(acc.substring(startIndex));
     }
 
     @Override

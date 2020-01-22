@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface AccountRepository extends CrudRepository<Account,Long>{
 
-    List<Account> findByAccountNumber(Long accountnumber);
+    Account findByAccountNumber(Long accountnumber);
 
 }

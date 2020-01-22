@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="common/header :: common-header"/>
+<body roleId="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+<head th:replace="common/header :: navbar"/>
+<div class="container main">
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Recipient Information</h3>
+            <form th:action="@{/onlinebanking/transfer/payee/save}" method="post">
+
+<!--                <label for="recipientName" class="cols-sm-2 control-label"></label><span class="bg-danger pull-right" th:if="${userExists}">Payeename already exists</span>-->
+<!--                <label for="recipientName" class="cols-sm-2 control-label"></label><span class="bg-danger pull-right" th:if="${userExists}">Payee account already exists</span>-->
+
+                <input type="hidden" name="id" th:value="${payee.id}" />
+
+                <div class="form-group">
+                    <label for="recipientName">Name</label>
+                    <span class="bg-danger pull-right" th:if="${payeeNameExists}">Payeename already exists</span>
+                    <input type="text" class="form-control" th:value="${payee.name}" name="name"
+                           id="recipientName" placeholder="Name"/>
+                </div>
+                <div class="form-group">
+                    <label for="recipientEmail">Email</label>
+                    <input type="email" class="form-control" th:value="${payee.email}" name="email"
+                           id="recipientEmail" placeholder="Email"/>
+                </div>
+                <div class="form-group">
+                    <label for="recipientPhone">Phone</label>
+                    <input type="text" class="form-control" th:value="${payee.phone}" name="phone"
+                           id="recipientPhone" placeholder="Phone"/>
+                </div>
+                <div class="form-group">
+                    <label for="recipientAccountNumber">Account Number</label>
+                    <span class="bg-danger pull-right" th:if="${payeeAccountExists}">Payee account already exists</span>
+                    <input type="text" class="form-control" th:value="${payee.accountNumber}"
+                           name="accountNumber" id="recipientAccountNumber" placeholder="Account Number"/>
+                </div>
+                <div class="form-group">
+                    <label for="recipientDescription">Description</label>
+                    <textarea class="form-control" th:value="${payee.description}" name="description"
+                              id="recipientDescription" placeholder="Description" th:text="${payee.description}"></textarea>
+                </div>
+
+                <input type="hidden"
+                       name="${_csrf.parameterName}"
+                       value="${_csrf.token}"/>
+
+                <button class="btn btn-primary" type="submit">Add/Edit Recipient</button>
+            </form>
+
+            <div class="col-md-6">
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <h3>List of Recipients</h3>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>Recipient Name</th>
+                    <th>Recipient Email</th>
+                    <th>Recipient Phone</th>
+                    <th>Recipient Account Number</th>
+                    <th>Description</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr data-th-each="eachPayee : ${recipientList}">
+                    <td><a data-th-text="${eachPayee.name}" th:href="@{/onlinebanking/transfer/payee/edit?payeeName=}+${eachPayee.name}">...</a></td>
+                    <td data-th-text="${eachPayee.email}">...</td>
+                    <td data-th-text="${eachPayee.phone}">...</td>
+                    <td data-th-text="${eachPayee.accountNumber}">...</td>
+                    <td data-th-text="${eachPayee.description}">...</td>
+                    <td><a th:href="@{/onlinebanking/transfer/payee/delete?payeeName=}+${eachPayee.name}">delete</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div th:replace="common/header :: body-bottom-scripts"/>
+
+</body>
+</html>

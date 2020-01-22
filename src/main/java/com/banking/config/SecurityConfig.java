@@ -41,8 +41,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     //Pulic matchers for URL's
     private static final String[] PUBLIC_MATCHERS = {
-        "/", "/signup"
+            "/webjars/**",            "/css/**",            "/js/**",
+            "/images/**",            "/",            "/about/**",
+            "/contact/**",            "/error/**/*",            "/console/**",            "/signup"
     };
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -52,11 +55,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(PUBLIC_MATCHERS)
                 .permitAll().anyRequest().authenticated();
 
+        System.out.println("Inside security config http method  "  );
+
         http
                 .csrf().disable().cors().disable()
 
                 .formLogin().failureUrl("/index?error")
-                            .defaultSuccessUrl("/homePage")
+                            .defaultSuccessUrl("/onlinebanking/homePage")
                             .loginPage("/index")
                             .permitAll()
 

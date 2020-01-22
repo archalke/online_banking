@@ -47,11 +47,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkUserExists(String userName, String email) {
-        if(checkUserNameExists(userName)||checkEmailExists(email)) {
-            return true;
-        }else {
-            return false;
-        }
+        return checkUserNameExists(userName) || checkEmailExists(email);
     }
 
     @Override
@@ -103,13 +99,23 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-    /*
-    1. Encrypt password
-    2. assign roles to user
-    3. save/create user
-    * */
     @Override
-    public User createUser(User user, Set<UserRole> userRoles) {
+    public User findByUsername(String userName) {
+        return userRepository.findByUsername(userName);
+    }
+
+    @Override
+    public void save(User user) {
+        userRepository.save(user);
+    }
+
+    /*
+        1. Encrypt password
+        2. assign roles to user
+        3. save/create user
+        * */
+    @Override
+    public void createUser(User user, Set<UserRole> userRoles) {
 
         User tempUser = userRepository.findByUsername(user.getUsername());
 
@@ -122,18 +128,24 @@ public class UserServiceImpl implements UserService {
             String usersEncryptedPassword = passwordEncoder.encode(user.getPassword());
             user.setPassword(usersEncryptedPassword);
 
+
             //save user after all required updates
             tempUser = userRepository.save(user);
+
             System.out.println(" **** tempUser :   " + tempUser);
             System.out.println(" **** user :   " + user);
 
             //assign roles to user
-            userRoles.add( new UserRole(tempUser,roleRepository.findByName("ROLE_USER")) );
+//            Set<UserRole> userRoles2 = user.getUserRoles();//new UserRole();
+            userRoles.add( new UserRole(user,roleRepository.findByName("ROLE_USER")) );
+
             //save user's role to database
-            userRoles.forEach( userRole->{userRoleRepository.save(userRole);});
+            userRoles.forEach( userRole2->{userRoleRepository.save(userRole2);});
 
             // ** skipping this part for now
-            // tempUser.getUserRoles().addAll(userRoles);
+//             tempUser.getUserRoles().addAll(userRoles);
+
+            System.out.println( "UserRoles are empty : "+ user.getUserRoles().isEmpty() + "   size : "+ user.getUserRoles().size() );
 
             System.out.println(" **** User roles of temp user :   " );
 
@@ -150,10 +162,8 @@ public class UserServiceImpl implements UserService {
             if( null==tempUser.getAccounts() || tempUser.getAccounts().isEmpty() )
                 tempUser =  accountService.createAccounts(tempUser);
 
-
         }
 
-        return tempUser;
 
     }
 

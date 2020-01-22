@@ -3,6 +3,7 @@ package com.banking.Controllers;
 import com.banking.Repository.RoleRepository;
 import com.banking.Service.UserService;
 import com.banking.domain.Account;
+import com.banking.domain.AccountType;
 import com.banking.domain.User;
 import com.banking.domain.security.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +19,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Controller
+
 public class HomeController {
 
     @Autowired
     UserService userService;
-
-    @Autowired
-    RoleRepository roleRepository;
-
 
     @GetMapping("/")
     public String Home(){
@@ -61,22 +59,20 @@ public class HomeController {
             return "signup";
 
         }else{
-
             Set<UserRole> userRoles = new HashSet<>();
-//            userRoles.add( new UserRole(user,roleRepository.findByName("ROLE_USER")) );
             userService.createUser(user, userRoles);
             return "redirect:/";
         }
 
     }
 
-    @RequestMapping("/homePage")
+    @RequestMapping("/onlinebanking/homePage")
     public String homePage(Principal principal, Model model){
 
         User user = userService.findByUserName(principal.getName());
 
-        Account primaryAccount = user.getAccounts().get(0);
-        Account savingsAccount = user.getAccounts().get(1);
+        Account primaryAccount = user.getAccounts().get(AccountType.PRIMARY_ACCOUNT_INDEX);
+        Account savingsAccount = user.getAccounts().get(AccountType.SAVINGS_ACCOUNT_INDEX);
 
         model.addAttribute("primaryAccount",primaryAccount);
         model.addAttribute("savingsAccount",savingsAccount);

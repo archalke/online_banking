@@ -40,7 +40,7 @@ public class User implements UserDetails {
     @JsonIgnore
     private List<Account> Accounts;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<UserRole> userRoles = new HashSet<>();
 
@@ -81,6 +81,8 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 
 
     @Override

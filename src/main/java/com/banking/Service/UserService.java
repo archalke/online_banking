@@ -21,6 +21,9 @@ public interface UserService {
 
     void activateUser(String userName);
     void deactivateUser(String userName);
-    User createUser(User user, Set<UserRole> userRoles);
+    void createUser(User user, Set<UserRole> userRoles);
+
+    User findByUsername(String userName);
+    void save(User user);
 
 }
