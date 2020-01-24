@@ -1,12 +1,13 @@
 package com.banking.Controllers;
 
-import com.banking.Repository.TransactionRepository;
+import ch.qos.logback.classic.Logger;
 import com.banking.Service.AccountService;
 import com.banking.Service.UserService;
 import com.banking.domain.Account;
 import com.banking.domain.AccountType;
 import com.banking.domain.Transaction;
 import com.banking.domain.User;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,11 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(path = "/onlinebanking/account")
 public class AccountController {
+
+    Logger logger = (Logger) LoggerFactory.getLogger(AccountController.class);
 
     @Autowired
     UserService userService;

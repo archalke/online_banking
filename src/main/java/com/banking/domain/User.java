@@ -17,6 +17,7 @@ import java.util.Set;
 @Entity
 @Data
 @NoArgsConstructor
+@Getter @Setter
 public class User implements UserDetails {
 
     @Id
@@ -29,7 +30,7 @@ public class User implements UserDetails {
     @NotBlank(message = "Last Name is mandatory")
     private String lastName;
     private String password;
-    @Getter @Setter private String email;
+    private String email;
     private String phone;
     private boolean enabled=true;
 

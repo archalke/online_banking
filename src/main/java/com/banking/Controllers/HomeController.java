@@ -61,7 +61,7 @@ public class HomeController {
         }else{
             Set<UserRole> userRoles = new HashSet<>();
             userService.createUser(user, userRoles);
-            return "redirect:/";
+            return "index";
         }
 
     }

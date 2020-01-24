@@ -3,9 +3,11 @@ package com.banking.Repository;
 import com.banking.domain.Payee;
 import com.banking.domain.User;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface PayeeRepository extends CrudRepository<Payee, Long> {
 
     List<Payee> findAll();
