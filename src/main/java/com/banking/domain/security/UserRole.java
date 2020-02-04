@@ -22,10 +22,12 @@ public class UserRole implements Serializable {
 
     @ManyToOne( fetch = FetchType.EAGER)
     @JoinColumn(name="user_id")
+    @JsonIgnore
     private User user;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="role_id")
+    @JsonIgnore
     private Role role;
 
     public UserRole(User user,Role role){

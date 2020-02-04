@@ -111,29 +111,43 @@ public class UserServiceImpl implements UserService {
             String usersEncryptedPassword = passwordEncoder.encode(user.getPassword());
             user.setPassword(usersEncryptedPassword);
 
-            //save user after all required updates
+            userRoles.add(new UserRole(user, roleRepository.findByName("ROLE_USER")));
+
+            for(UserRole userRole : userRoles){
+                roleRepository.save(userRole.getRole());
+            }
+
+            Set<UserRole> userRole2 = user.getUserRoles();
+
+            if(userRole2.isEmpty()){
+                System.out.println("User role is empty");
+                user.setUserRoles(userRoles);
+            }
+
             tempUser = userRepository.save(user);
 
-            System.out.println(" **** tempUser :   " + tempUser);
-            System.out.println(" **** user :   " + user);
-
-            //assign roles to user
-//            Set<UserRole> userRoles2 = user.getUserRoles();//new UserRole();
-            Role role = roleRepository.findByName("ROLE_USER");
-            UserRole userRole = new UserRole(tempUser,role);
-            System.out.println("userRoles.isEmpty() --- "+userRoles.isEmpty());
-
-            //this where it fails badly
-            userRoles.add( new UserRole(tempUser,roleRepository.findByName("ROLE_USER")) );
-
-             //save user's role to database
-            userRoles.forEach( userRole2->{userRoleRepository.save(userRole2);});
-
+//            //save user after all required updates
+//            tempUser = userRepository.save(user);
+//
+//            System.out.println(" **** tempUser :   " + tempUser);
+//            System.out.println(" **** user :   " + user);
+//
+//            for (UserRole ur : userRoles) {
+//                roleDao.save(ur.getRole());
+//            }
+//            //assign roles to user
+////            Set<UserRole> userRoles2 = user.getUserRoles();//new UserRole();
+//            Role role = roleRepository.findByName("ROLE_USER");
+//            UserRole userRole = new UserRole(tempUser,role);
+//            System.out.println("userRoles.isEmpty() --- "+userRoles.isEmpty());
+//            //this where it fails badly
+//            userRoles.add( new UserRole(tempUser,roleRepository.findByName("ROLE_USER")) );
+//             //save user's role to database
+//            userRoles.forEach( userRole2->{userRoleRepository.save(userRole2);});
             // ** skipping this part for now
 //             tempUser.getUserRoles().addAll(userRoles);
-
-            System.out.println( "UserRoles are empty : "+ user.getUserRoles().isEmpty() + "   size : "+ user.getUserRoles().size() );
-
+//          user.getUserRoles().addAll(userRoles);
+//            System.out.println( "UserRoles are empty : "+ user.getUserRoles().isEmpty() + "   size : "+ user.getUserRoles().size() );
             System.out.println(" **** User roles of temp user :   " );
 
             if(!tempUser.getUserRoles().isEmpty()){
@@ -141,13 +155,15 @@ public class UserServiceImpl implements UserService {
             }
 
             System.out.println( "Inside user impl  :  " );
-            userRoles.forEach(System.out::println);
+//            userRoles.forEach(System.out::println);
 
-            System.out.println( "Inside user impl  :  "+ user );
+//            System.out.println( "Inside user impl  :  "+ user );
 
             //assign new accounts to user if accounts are empty
             if( null==tempUser.getAccounts() || tempUser.getAccounts().isEmpty() )
                 tempUser =  accountService.createAccounts(tempUser);
+
+
 
         }
 

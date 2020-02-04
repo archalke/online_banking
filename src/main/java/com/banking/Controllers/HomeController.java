@@ -24,6 +24,8 @@ public class HomeController {
 
     @Autowired
     UserService userService;
+    @Autowired
+    RoleRepository roleRepository;
 
     @GetMapping("/")
     public String Home(){

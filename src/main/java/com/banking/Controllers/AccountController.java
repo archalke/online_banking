@@ -1,6 +1,10 @@
 package com.banking.Controllers;
 
+import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.sift.AppenderFactoryUsingJoran;
+import ch.qos.logback.core.Appender;
+import ch.qos.logback.core.sift.AppenderFactory;
 import com.banking.Service.AccountService;
 import com.banking.Service.UserService;
 import com.banking.domain.Account;
@@ -25,13 +29,17 @@ import java.util.List;
 @RequestMapping(path = "/onlinebanking/account")
 public class AccountController {
 
-    Logger logger = (Logger) LoggerFactory.getLogger(AccountController.class);
+    public static Logger logger = (Logger) LoggerFactory.getLogger(AccountController.class);
 
     @Autowired
     UserService userService;
 
     @Autowired
     AccountService accountService;
+
+    AccountController(){
+        logger.setLevel(Level.DEBUG);
+    }
 
     @GetMapping("/primaryAccount")
     public String primaryAccount(Principal principal, Model model){
@@ -55,6 +63,8 @@ public class AccountController {
 
     @GetMapping("/savingsAccount")
     public String savingsAccount(Principal principal, Model model){
+
+        logger.info("Fetch all savings accounts");
 
         User user = userService.findByUserName(principal.getName());
         Account savingsAccount = null;
@@ -88,16 +98,29 @@ public class AccountController {
 
     @PostMapping("/deposit")
     public String depositPost(Model model,Principal principal, @ModelAttribute("accountType")String accountType, @ModelAttribute("amount")String amount){
+        try {
 
-        User user = userService.findByUserName(principal.getName());
-        System.out.println( " ***********  "+ accountType + amount);
+            logger.debug("Entering deposit amount method");
 
-        if(Double.parseDouble(amount)<1){
-            model.addAttribute("amount","..Enter positive amount..");
-            return "deposit";
+            User user = userService.findByUserName(principal.getName());
+            System.out.println(" ***********  " + accountType + amount);
+
+            logger.info("Depositing amount " + amount + " to " + accountType + " accounts");
+
+            if (Double.parseDouble(amount) < 1) {
+                model.addAttribute("amount", "..Enter positive amount..");
+                logger.warn(" User tried to deposit amount less than a dollar ");
+                return "deposit";
+            }
+
+            accountService.deposit(accountType, amount, user);
+
+        }catch (Exception e){
+            logger.error("Error in depositing an amount  ");
+            e.printStackTrace();
+            return "generalError";
         }
 
-        accountService.deposit(accountType,amount,user);
         return "deposit";
 
     }
