@@ -1,5 +1,8 @@
 package com.banking.Service.ImplementationOfServices;
 
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.LoggerContext;
+import com.banking.Controllers.AccountController;
 import com.banking.Repository.AccountRepository;
 import com.banking.Service.AccountService;
 import com.banking.Service.TransactionService;
@@ -7,6 +10,7 @@ import com.banking.domain.Account;
 import com.banking.domain.AccountType;
 import com.banking.domain.Transaction;
 import com.banking.domain.User;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +32,10 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     TransactionService transactionService;
+
+    public static Logger logger = (Logger) LoggerFactory.getLogger(AccountServiceImpl.class);
+
+
 
     @Override
     public User createAccounts(User user) {
