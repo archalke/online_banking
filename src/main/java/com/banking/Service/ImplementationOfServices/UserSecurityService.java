@@ -15,7 +15,6 @@ public class UserSecurityService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -23,7 +22,7 @@ public class UserSecurityService implements UserDetailsService {
 
         if(null==user){
             //add LOG warn as user not found
-
+            throw new UsernameNotFoundException("User is null");
         }
 
         return user;
