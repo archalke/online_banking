@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<head>
-    <title>Spring Security Example</title>
-</head>
-<body>
-<h1>Welcome!</h1>
+<head th:replace="common/header :: common-header"/>
 
-<p>Click <a th:href="@{/generalError}">Some error occurred please try again later.</a> to see a greeting.</p>
+<body>
+
+    <h1>Error</h1>
+
+    <p>Some error occurred please try again later.</p>
+
 </body>
+
 </html>

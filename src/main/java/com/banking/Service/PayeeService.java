@@ -12,5 +12,6 @@ public interface PayeeService {
     void removePayee(Payee payee);
     Payee findPayeeByName(String name);
     Payee findByAccountNumber(Long accountNumber);
+    Payee findByEmail(String email);
 
 }

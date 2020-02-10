@@ -38,8 +38,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userSecurityService).passwordEncoder(passwordEncoder());
     }
 
-
-
     //add security - for requests
 
     //Pulic matchers for URL's

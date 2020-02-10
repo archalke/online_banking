@@ -26,4 +26,5 @@ public interface UserService {
     User findByUsername(String userName);
     void save(User user);
 
+    User findByAccountNumber(Long accountNumber);
 }

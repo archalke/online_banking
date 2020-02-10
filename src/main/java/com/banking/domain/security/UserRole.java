@@ -10,10 +10,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
-@Data
-@NoArgsConstructor
-@Getter @Setter
 public class UserRole implements Serializable {
 
     @Id

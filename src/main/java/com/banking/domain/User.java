@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.*;
 
 
@@ -17,7 +18,7 @@ import java.util.*;
 @Data
 @NoArgsConstructor
 @Getter @Setter
-public class User implements UserDetails {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue
@@ -32,6 +33,7 @@ public class User implements UserDetails {
     private String email;
     private String phone;
     private boolean enabled=true;
+    private String roles;
 
     @OneToMany( mappedBy = "user", cascade = CascadeType.ALL,fetch = FetchType.LAZY )
     private List<Address> Addresses;
@@ -40,49 +42,8 @@ public class User implements UserDetails {
     @JsonIgnore
     private List<Account> Accounts;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnore
-    private Set<UserRole> userRoles = new HashSet<>();
-
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Payee> payees = new HashSet<>();
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<GrantedAuthority> authorities = new HashSet<>();
-        userRoles.forEach(ur -> authorities.add(new Authority(ur.getRole().getName())));
-        return authorities;
-    }
-
-    @Override
-    public String getPassword() {
-        return this.password;
-    }
-
-    @Override
-    public String getUsername() {
-        return this.username;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 
     @Override
     public String toString() {
@@ -95,10 +56,11 @@ public class User implements UserDetails {
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", enabled=" + enabled +
-                ", Addresses=" + Addresses +
-                ", Accounts=" + Accounts +
-                ", userRoles=" + userRoles +
-                ", payees=" + payees +
+                ", Addresses size =" + Addresses.size() +
+                ", Accounts size =" + Accounts.size() +
+                "Roles "+roles+
+                ", payees size=" + payees.size() +
                 '}';
     }
+
 }

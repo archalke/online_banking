@@ -9,7 +9,5 @@ import java.util.List;
 
 @Repository
 public interface AccountRepository extends CrudRepository<Account,Long>{
-
     Account findByAccountNumber(Long accountnumber);
-
 }

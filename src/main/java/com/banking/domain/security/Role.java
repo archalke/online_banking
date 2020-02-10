@@ -11,10 +11,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@Data
-@Getter @Setter
-@NoArgsConstructor
+
 public class Role implements Serializable {
 
     @Id
@@ -23,5 +20,7 @@ public class Role implements Serializable {
 
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<UserRole> userRoles = new HashSet<>();
+
+
 
 }

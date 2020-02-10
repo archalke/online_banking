@@ -3,6 +3,8 @@ package com.banking.Service.ImplementationOfServices;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import com.banking.Controllers.AccountController;
+import com.banking.Exceptions.UserException;
+import com.banking.Log.LogWrapper;
 import com.banking.Repository.AccountRepository;
 import com.banking.Service.AccountService;
 import com.banking.Service.TransactionService;
@@ -33,15 +35,19 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     TransactionService transactionService;
 
-    public static Logger logger = (Logger) LoggerFactory.getLogger(AccountServiceImpl.class);
+    public static LogWrapper log = LogWrapper.getLogger(AccountServiceImpl.class);
+
 
 
 
     @Override
     public User createAccounts(User user) {
 
-       //create both saving and checking for new user
-        List<Account> accountList = new ArrayList<>();//user.getAccounts();
+        log.debug("Creating New accounts for user");
+
+        try {
+            //create both saving and checking for new user
+            List<Account> accountList = new ArrayList<>();//user.getAccounts();
 
             Account account;
             long count = accountRepository.count();
@@ -61,29 +67,30 @@ public class AccountServiceImpl implements AccountService {
             accountList.add(account);
 
             user.setAccounts(accountList);
+            log.info("Successfully created accounts for user " + user.getUsername());
 
-            System.out.println( "Account List ");
-            accountList.forEach(System.out::println);
-
+        }catch (Exception e){
+            log.error("Account creation operation interrupted for user "+ (user!=null ? user.getUsername():""));
+            e.printStackTrace();
+            throw e;
+        }
         return user;
     }
 
     @Override
     public List<Transaction> transactionList(Account account) {
 
-//        return transactionService.findTransactions().stream().filter(transaction -> transaction.getLinkedToAccount().equals(account)).collect(Collectors.toList());
-
         //reverse order -- so latest transaction should be on top
-        Collection<Transaction> transactionCollection = transactionService.findTransactions().stream().filter(transaction -> transaction.getLinkedToAccount().equals(account)).sorted((o1, o2) -> o2.getTransactionDateTime().compareTo(o1.getTransactionDateTime())).collect(Collectors.toList());
-
-        transactionCollection.forEach(transaction -> System.out.println(transaction));
-
-        return transactionService.findTransactions().stream().filter(transaction -> transaction.getLinkedToAccount().equals(account)).sorted((o1, o2) -> o2.getTransactionDateTime().compareTo(o1.getTransactionDateTime())).collect(Collectors.toList());
-
+//        Collection<Transaction> transactionCollection = transactionService.findTransactions().stream().filter(transaction -> transaction.getLinkedToAccount().equals(account)).sorted((o1, o2) -> o2.getTransactionDateTime().compareTo(o1.getTransactionDateTime())).collect(Collectors.toList());
+        List<Transaction> transactions = transactionService.findTransactions().stream().filter(transaction -> transaction.getLinkedToAccount().equals(account)).sorted((o1, o2) -> o2.getTransactionDateTime().compareTo(o1.getTransactionDateTime())).collect(Collectors.toList());
+        log.debug("Retrieved all required transaction and its size is "+transactions.size());
+        return transactions;
     }
 
     @Override
     public void deposit(String accountType, String amount,User user) {
+
+        log.debug("deposit operation started");
 
         int accountTypeIndex =  accountType.equals("Primary")? 0:1;
         Account depositAccount = user.getAccounts().get(accountTypeIndex);
@@ -101,13 +108,14 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void withdraw(String accountType, String amount,User user) {
 
+        log.debug("withdraw operation started");
+
         int accountTypeIndex = accountType.equals("Primary") ? 0 : 1;
         Account withdrawAccount = user.getAccounts().get(accountTypeIndex);
         BigDecimal currentAccountBalance = withdrawAccount.getAccountBalance();
         BigDecimal amountToSubtract = new BigDecimal(amount);
 
        if( currentAccountBalance.compareTo(amountToSubtract)>=0){
-            System.out.println("inside compare");
             BigDecimal newAccountBalance = currentAccountBalance.subtract( amountToSubtract );
             withdrawAccount.setAccountBalance(newAccountBalance);
             withdrawAccount = accountRepository.save(withdrawAccount);
@@ -125,6 +133,12 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void save(Account account) {
+        log.debug("Save account");
         accountRepository.save(account);
+    }
+
+    @Override
+    public Account findByAccountNumber(Long accountNumber) {
+        return accountRepository.findByAccountNumber(accountNumber);
     }
 }

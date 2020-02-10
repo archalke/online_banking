@@ -15,4 +15,6 @@ public interface AccountService {
         List<Transaction> transactionList(Account account);
         void save(Account account);
 
+        Account findByAccountNumber(Long accountNumber);
+
 }

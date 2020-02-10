@@ -14,4 +14,5 @@ public interface PayeeRepository extends CrudRepository<Payee, Long> {
     Payee findByName(String payeeName);
     List<Payee> findByUser(User user);
     Payee findByAccountNumber(Long accountNumber);
+    Payee findByEmail(String email);
 }

@@ -13,15 +13,17 @@
 <!--                <label for="recipientName" class="cols-sm-2 control-label"></label><span class="bg-danger pull-right" th:if="${userExists}">Payee account already exists</span>-->
 
                 <input type="hidden" name="id" th:value="${payee.id}" />
-
+                <span class="bg-danger pull-right" th:if="${payeeExists}">Payee already exists  in your payee list</span>
+                <span class="bg-danger pull-right" th:if="${noAccountExists}">No Account matched with these details</span>
                 <div class="form-group">
                     <label for="recipientName">Name</label>
-                    <span class="bg-danger pull-right" th:if="${payeeNameExists}">Payeename already exists</span>
+                    <span class="bg-danger pull-right" th:if="${payeeNameExists}">Payeename already exists in your account</span>
                     <input type="text" class="form-control" th:value="${payee.name}" name="name"
                            id="recipientName" placeholder="Name"/>
                 </div>
                 <div class="form-group">
                     <label for="recipientEmail">Email</label>
+                    <span class="bg-danger pull-right" th:if="${accountDoesNotExists}">No Account exists for this email address </span>
                     <input type="email" class="form-control" th:value="${payee.email}" name="email"
                            id="recipientEmail" placeholder="Email"/>
                 </div>
@@ -32,7 +34,7 @@
                 </div>
                 <div class="form-group">
                     <label for="recipientAccountNumber">Account Number</label>
-                    <span class="bg-danger pull-right" th:if="${payeeAccountExists}">Payee account already exists</span>
+                    <span class="bg-danger pull-right" th:if="${payeeAccountExists}">Payee account already exists in your payee list</span>
                     <input type="text" class="form-control" th:value="${payee.accountNumber}"
                            name="accountNumber" id="recipientAccountNumber" placeholder="Account Number"/>
                 </div>
