@@ -8,5 +8,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class PageNames {
 
     public static String errorPage;// = "generalError";
+    String abc = "12";
 
 }
